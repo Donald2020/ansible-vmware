@@ -93,10 +93,7 @@ def create_inventory_list(vm_list, group_by='guestId', use_ip=False):
         use_ip (bool): use ip addresses instead of hostnames
     '''
 
-    inventory = {}
-    inventory['vcenter'] = {}
-    inventory['vcenter']['children'] = []
-
+    inventory = {'vcenter': {'children': []}}
     for vm in vm_list:
         if vm.guest.guestState == 'notRunning':
             continue
@@ -113,9 +110,7 @@ def create_inventory_list(vm_list, group_by='guestId', use_ip=False):
             inventory['vcenter']['children'].append(group)
 
         if group not in inventory:
-            inventory[group] = {}
-            inventory[group]['hosts'] = []
-
+            inventory[group] = {'hosts': []}
         value = vm.guest.ipAddress if use_ip else hostname
         inventory[group]['hosts'].append(value)
 
